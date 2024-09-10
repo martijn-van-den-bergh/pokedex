@@ -1,10 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { MainClient } from "pokenode-ts";
+import Chart from "./Charts";
+
+(async () => {
+  const api = new MainClient();
+  console.log("Fetching data from the PokéAPI...", api);
+
+  try {
+    const pokemonData = await api.pokemon.getPokemonByName("luxray");
+    console.log(pokemonData); // Outputs "Luxray"
+  } catch (error) {
+    console.error(error);
+  }
+})();
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
     <>
@@ -18,18 +32,15 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <Chart />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
