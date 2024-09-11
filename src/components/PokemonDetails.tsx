@@ -22,9 +22,11 @@ const PokemonDetails = ({ pokemon, otherPokemon }: PokemonDetailsProp) => {
   };
 
   return (
-    <div>
-      <h2>{pokemon.name}</h2>
-      <img src={pokemon.sprites.front_default ?? ""} alt={pokemon.name} />
+    <div className="pokemon-card">
+      <div className="header-box">
+        <h2>{pokemon.name}</h2>
+        <img src={pokemon.sprites.front_default ?? ""} alt={pokemon.name} />
+      </div>
       <p>Height: {pokemon.height}</p>
       <p>Weight: {pokemon.weight}</p>
       <p>Types: {pokemon.types.map((type) => type.type.name).join(", ")}</p>

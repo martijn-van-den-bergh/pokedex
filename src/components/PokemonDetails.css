@@ -6,3 +6,47 @@
 .plus {
   margin-right: 20px;
 }
+
+.pokemon-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  margin: 16px;
+  background-color: #fff;
+}
+
+.pokemon-card img {
+  display: block;
+  margin: 0 auto 16px;
+}
+
+.pokemon-card h2 {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.pokemon-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pokemon-card .stat-list-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.pokemon-card .plus {
+  color: green;
+  margin-left: 8px;
+}
+
+.pokemon-card .header-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  margin-bottom: 16px;
+  text-align: center;
+}

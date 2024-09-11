@@ -32,22 +32,19 @@ const PokemonList = ({ pokemonList, onPokemonClick }: PokemonListProps) => {
     );
   });
 
-  useEffect(() => {
-    console.log("Filtered Pokémon list:", pokemonList);
-    const enrichPokemonList = async () => {
-      console.log("Enriching Pokémon list:", pokemonList);
-      const newEnrichedPokemonList: EnrichedPokemon[] = await Promise.all(
-        pokemonList.map(async (pokemon) => {
-          const species = await getSpeciesByName(pokemon.name);
-          return { ...pokemon, color: species.color.name, habitat: species.habitat.name };
-        })
-      );
-      console.log("Enriched Pokémon list:", newEnrichedPokemonList);
-      setEnrichedPokemonList(newEnrichedPokemonList);
-    };
+  const enrichPokemonList = async () => {
+    const newEnrichedPokemonList: EnrichedPokemon[] = await Promise.all(
+      pokemonList.map(async (pokemon) => {
+        const species = await getSpeciesByName(pokemon.name);
+        return { ...pokemon, color: species.color.name, habitat: species.habitat.name };
+      })
+    );
+    setEnrichedPokemonList(newEnrichedPokemonList);
+  };
 
+  useEffect(() => {
     enrichPokemonList();
-  }, [pokemonList]);
+  }, []);
 
   const handlePokemonClickInternal = (clickedPokemon: EnrichedPokemon) => {
     const updatedList = enrichedPokemonList.map((pokemon) => (pokemon.name === clickedPokemon.name ? { ...pokemon, selected: !pokemon.selected } : pokemon));
@@ -61,8 +58,8 @@ const PokemonList = ({ pokemonList, onPokemonClick }: PokemonListProps) => {
       <input type="text" placeholder="Search Pokémon" value={searchTerm} onChange={handleSearchChange} />
 
       <ul>
-        {filteredPokemonList.map((pokemon, index) => (
-          <li key={index} className={`pokemon-item ${pokemon.selected ? "selected" : ""}`} onClick={() => handlePokemonClickInternal(pokemon)}>
+        {filteredPokemonList.map((pokemon) => (
+          <li key={pokemon.id} className={`pokemon-item ${pokemon.selected ? "selected" : ""}`} onClick={() => handlePokemonClickInternal(pokemon)}>
             <img src={pokemon.sprites.front_default ?? ""} alt={pokemon.name} />
             {pokemon.name}
           </li>
