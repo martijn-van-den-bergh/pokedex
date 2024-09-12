@@ -16,7 +16,7 @@ const PokemonDetails = ({ pokemon, otherPokemon }: PokemonDetailsProp) => {
       return null;
     }
     if (statValue > otherStat.base_stat) {
-      return <span style={{ color: "green" }}>+</span>;
+      return <span className="flashy-plus">+</span>;
     }
     return null;
   };

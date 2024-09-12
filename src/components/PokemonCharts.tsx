@@ -18,7 +18,7 @@ const PokemonCharts: React.FC<PokemonChartsProps> = ({ pokemons }) => {
   const [showSpeedChart, setShowSpeedChart] = useState(true);
 
   return (
-    <div>
+    <div className="parent-container">
       <div className="chart-filters">
         <label>
           <input type="checkbox" checked={showWeightChart} onChange={() => setShowWeightChart(!showWeightChart)} />

@@ -12,14 +12,28 @@ export interface EnrichedPokemon extends Pokemon {
 interface PokemonListProps {
   pokemonList: Pokemon[];
   onPokemonClick: (pokemon: EnrichedPokemon) => void;
+  deselectAll: () => void;
 }
 
-const PokemonList = ({ pokemonList, onPokemonClick }: PokemonListProps) => {
+const PokemonList = ({ pokemonList, onPokemonClick, deselectAll }: PokemonListProps) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [enrichedPokemonList, setEnrichedPokemonList] = useState<EnrichedPokemon[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
+  };
+
+  const handleDeselect = () => {
+    const updatedList = enrichedPokemonList.map((pokemon) => ({ ...pokemon, selected: false }));
+    setEnrichedPokemonList(updatedList);
+    deselectAll();
+  };
+
+  const handlePokemonClickInternal = (clickedPokemon: EnrichedPokemon) => {
+    const updatedList = enrichedPokemonList.map((pokemon) => (pokemon.name === clickedPokemon.name ? { ...pokemon, selected: !pokemon.selected } : pokemon));
+    setEnrichedPokemonList(updatedList);
+    onPokemonClick(clickedPokemon);
   };
 
   const filteredPokemonList = enrichedPokemonList.filter((pokemon) => {
@@ -33,6 +47,7 @@ const PokemonList = ({ pokemonList, onPokemonClick }: PokemonListProps) => {
   });
 
   const enrichPokemonList = async () => {
+    // we need to be able to search/compare by color and habitat, so we enrich the list with this information
     const newEnrichedPokemonList: EnrichedPokemon[] = await Promise.all(
       pokemonList.map(async (pokemon) => {
         const species = await getSpeciesByName(pokemon.name);
@@ -40,22 +55,24 @@ const PokemonList = ({ pokemonList, onPokemonClick }: PokemonListProps) => {
       })
     );
     setEnrichedPokemonList(newEnrichedPokemonList);
+    setLoading(false);
   };
 
   useEffect(() => {
     enrichPokemonList();
   }, []);
 
-  const handlePokemonClickInternal = (clickedPokemon: EnrichedPokemon) => {
-    const updatedList = enrichedPokemonList.map((pokemon) => (pokemon.name === clickedPokemon.name ? { ...pokemon, selected: !pokemon.selected } : pokemon));
-    setEnrichedPokemonList(updatedList);
-    onPokemonClick(clickedPokemon);
-  };
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
       <h1>Pokemon List</h1>
-      <input type="text" placeholder="Search Pokémon" value={searchTerm} onChange={handleSearchChange} />
+      <div className="controls">
+        <input type="text" placeholder="Search Pokémon" value={searchTerm} onChange={handleSearchChange} />
+        <button onClick={handleDeselect}>Deselect all</button>
+      </div>
 
       <ul>
         {filteredPokemonList.map((pokemon) => (

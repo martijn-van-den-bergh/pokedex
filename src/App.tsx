@@ -38,21 +38,37 @@ function App() {
     });
   };
 
+  const handleDeselect = () => {
+    setSelectedPokemons([]);
+  };
+
   const renderPokemonDetails = () => {
     switch (selectedPokemons.length) {
       case 0:
         return <p>Please select a Pokémon.</p>;
       case 1:
-        return <PokemonDetails pokemon={selectedPokemons[0]} />;
+        return (
+          <div className="pokemon-details">
+            <PokemonDetails pokemon={selectedPokemons[0]} />;
+          </div>
+        );
       case 2:
         return (
           <>
-            <PokemonDetails pokemon={selectedPokemons[0]} otherPokemon={selectedPokemons[1]} />
-            <PokemonDetails pokemon={selectedPokemons[1]} otherPokemon={selectedPokemons[0]} />
+            <div className="pokemon-details">
+              <PokemonDetails pokemon={selectedPokemons[0]} otherPokemon={selectedPokemons[1]} />
+            </div>
+            <div className="pokemon-details">
+              <PokemonDetails pokemon={selectedPokemons[1]} otherPokemon={selectedPokemons[0]} />
+            </div>
           </>
         );
       default:
-        return <PokemonCharts pokemons={selectedPokemons} />;
+        return (
+          <div className="pokemon-chart">
+            <PokemonCharts pokemons={selectedPokemons} />;
+          </div>
+        );
     }
   };
 
@@ -63,7 +79,7 @@ function App() {
       ) : (
         <>
           <div className="pokemon-list-container">
-            <PokemonList pokemonList={pokemonList} onPokemonClick={handlePokemonClick} />
+            <PokemonList pokemonList={pokemonList} onPokemonClick={handlePokemonClick} deselectAll={handleDeselect} />
           </div>
           <div className="pokemon-details-container">{renderPokemonDetails()}</div>
         </>

@@ -50,3 +50,15 @@
   margin-bottom: 16px;
   text-align: center;
 }
+
+.flashy-plus {
+  color: green;
+  font-weight: bold;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 11px;
+  text-align: center;
+  border: 2px solid green;
+  border-radius: 50%;
+}

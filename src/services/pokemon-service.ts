@@ -1,6 +1,6 @@
 import { MainClient } from "pokenode-ts";
 
-const amountOfPokemon = 20;
+const amountOfPokemon = 151;
 
 export const getPokemonList = async (limit = amountOfPokemon, offset = 0) => {
   const api = new MainClient();
